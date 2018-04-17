@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Google Services</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_my_location">MyLocation</string>
+    <string name="title_activity_presenter">PresenterActivity</string>
+
+
+    <string name="android_services">Android Services</string>
+    <string name="android_api_services">Android Api Services</string>
+    <string name="google_default_services">Google Default Services</string>
+    <string name="android_vibrator_service">Android Vibrator Service</string>
+    <string name="title_activity_barcode_scanner">BarcodeScanner</string>
+
+    <string name="toggle_flash">Flash</string>
+    <string name="flash_on">Flash [ON]</string>
+    <string name="flash_off">Flash [OFF]</string>
+    <string name="auto_focus_on">Auto Focus [ON]</string>
+    <string name="auto_focus_off">Auto Focus [OFF]</string>
+    <string name="formats">Formats</string>
+    <string name="choose_formats">Choose Formats</string>
+    <string name="select_camera">Select a Camera</string>
+    <string name="ok_button">OK</string>
+    <string name="cancel_button">Cancel</string>
+    <bool name="cameraPreviewShouldFillView">true</bool>
+    <string name="title_activity_splash">Splash</string>
+</resources>

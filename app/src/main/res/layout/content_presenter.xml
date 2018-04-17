@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/fab_margin"
+    android:paddingRight="@dimen/fab_margin"
+    android:paddingTop="@dimen/fab_margin"
+    android:gravity="center"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Is Phone Dual Sim ?"/>
+
+        <TextView
+            android:id="@+id/tv_dual_sim"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="True"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="IMEI Main"/>
+
+        <TextView
+            android:id="@+id/tv_imei_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="321321321321"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="IMEI Secondary"/>
+
+        <TextView
+            android:id="@+id/tv_imei_secondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="321321321112"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Is Sim 1 Ready?"/>
+
+        <TextView
+            android:id="@+id/tv_is_sim_one_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="True"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Is Sim 2 ready?"/>
+
+        <TextView
+            android:id="@+id/tv_is_sim_two_ready"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="False"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Network Name"/>
+
+        <TextView
+            android:id="@+id/tv_network_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="AIRTEL"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Mobile Number"/>
+
+        <TextView
+            android:id="@+id/tv_mobile_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Not Accessible"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Battery Percentage"/>
+
+        <TextView
+            android:id="@+id/tv_battery_percent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="34%"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Current Date &amp; Time"/>
+
+        <TextView
+            android:id="@+id/tv_date_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Time"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Location"/>
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="location"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Location Accuracy"/>
+
+        <TextView
+            android:id="@+id/tv_location_accuracy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="100"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Location Bearing"/>
+
+        <TextView
+            android:id="@+id/tv_location_bearing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="56"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="Location Altitude"/>
+
+        <TextView
+            android:id="@+id/tv_location_altitude"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:text="23"/>
+
+    </RelativeLayout>
+
+
+
+</LinearLayout>
