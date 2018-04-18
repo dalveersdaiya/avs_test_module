@@ -25,38 +25,31 @@ import com.google.android.gms.location.LocationServices;
 
 
 /**
- * Created by HP-HP on 26-11-2015.
+ * Created by Dsd on 26-11-2015.
  */
 public class BackgroundLocationService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
-
     protected static final String TAG = "BgService";
-
     public static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
     public static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     protected GoogleApiClient mGoogleApiClient;
     protected LocationRequest mLocationRequest;
-
     private Intent mIntentService;
     private PendingIntent mPendingIntent;
-
     IBinder mBinder = new LocalBinder ();
+
+    @Override
+    public void onCreate() {
+        super.onCreate ();
+        mIntentService = new Intent (this, GoogleDefaults.class);
+        mPendingIntent = PendingIntent.getService (this, 1, mIntentService, PendingIntent.FLAG_UPDATE_CURRENT);
+        buildGoogleApiClient ();
+    }
 
     public class LocalBinder extends Binder {
         public BackgroundLocationService getServerInstance() {
             return BackgroundLocationService.this;
         }
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate ();
-        Log.i (TAG, "onCreate()");
-
-        mIntentService = new Intent (this, GoogleDefaults.class);
-        mPendingIntent = PendingIntent.getService (this, 1, mIntentService, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        buildGoogleApiClient ();
     }
 
     @Nullable
@@ -68,7 +61,6 @@ public class BackgroundLocationService extends Service implements GoogleApiClien
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand (intent, flags, startId);
-
         if (mGoogleApiClient.isConnected ()) {
             Log.i (TAG , " onStartCommand" + "GoogleApiClient Connected");
             return START_STICKY;
@@ -78,7 +70,6 @@ public class BackgroundLocationService extends Service implements GoogleApiClien
             Log.i (TAG , " onStartCommand"+ "GoogleApiClient not Connected");
             mGoogleApiClient.connect ();
         }
-
         return START_STICKY;
     }
 
@@ -103,16 +94,7 @@ public class BackgroundLocationService extends Service implements GoogleApiClien
 
     protected void startLocationUpdates() {
         Log.i (TAG, "Started Location Updates");
-
-        //LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
         if (ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return;
         }
         LocationServices.FusedLocationApi.requestLocationUpdates (mGoogleApiClient, mLocationRequest, mPendingIntent);
@@ -120,21 +102,15 @@ public class BackgroundLocationService extends Service implements GoogleApiClien
 
     protected void stopLocationUpdates() {
         Log.i(TAG, "Stopped Location Updates");
-
-        //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, mPendingIntent);
     }
 
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.i(TAG, "Connected to GoogleApiClient");
-
         startLocationUpdates();
     }
 
-    /**
-     * Callback that fires when the location changes.
-     */
     @Override
     public void onLocationChanged(Location location) {
     }

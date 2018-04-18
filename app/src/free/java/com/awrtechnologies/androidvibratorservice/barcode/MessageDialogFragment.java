@@ -7,13 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
-import com.awrtechnologies.androidvibratorservice.activity.Main2Activity;
 import com.awrtechnologies.androidvibratorservice.activity.MyLocation;
 
 public class MessageDialogFragment extends DialogFragment {
-    public interface MessageDialogListener {
-        void onDialogPositiveClick(DialogFragment dialog);
-    }
 
     private String mTitle;
     private String mMessage;
@@ -49,5 +45,9 @@ public class MessageDialogFragment extends DialogFragment {
         });
 
         return builder.create();
+    }
+
+    public interface MessageDialogListener {
+        void onDialogPositiveClick(DialogFragment dialog);
     }
 }

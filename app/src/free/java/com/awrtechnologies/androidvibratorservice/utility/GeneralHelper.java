@@ -20,8 +20,6 @@ public class GeneralHelper {
     public static void setGeneralHelper(GeneralHelper generalHelper) {
         GeneralHelper.generalHelper = generalHelper;
     }
-
-
     public Context getContext() {
         return context;
     }
@@ -56,10 +54,8 @@ public class GeneralHelper {
     @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
     public Point getScreenSize() {
-
         Point size = new Point();
         WindowManager w = ((Activity) context).getWindowManager();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             w.getDefaultDisplay().getSize(size);
         } else {

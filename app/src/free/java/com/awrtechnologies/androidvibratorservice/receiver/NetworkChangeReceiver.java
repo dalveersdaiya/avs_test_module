@@ -12,21 +12,15 @@ import com.awrtechnologies.androidvibratorservice.utility.NetworkUtil;
 
 public class NetworkChangeReceiver extends BroadcastReceiver {
 
-
     @Override
     public void onReceive(final Context context, final Intent intent) {
-
-        boolean status = NetworkUtil.getConnectivityStatusString(context);
-
+        boolean status = NetworkUtil.getConnectivityStatusResult(context);
         if (status) {
             try {
-
             } catch (Exception e) {
-
                 e.printStackTrace();
             }
         }
     }
-
 
 }
