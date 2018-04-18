@@ -304,6 +304,5 @@
     <orderEntry type="library" name="Gradle: android.arch.core:common:1.1.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.android.support:palette-v7-26.1.0" level="project" />
     <orderEntry type="module" module-name="rotatetext" />
-    <orderEntry type="module" module-name="rotatetext" />
   </component>
 </module>

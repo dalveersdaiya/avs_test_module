@@ -1,6 +1,9 @@
 package com.awrtechnologies.androidvibratorservice.utility;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
 
 import java.lang.reflect.Method;
@@ -83,8 +86,9 @@ public class TelephonyInfo {
 
             TelephonyManager telephonyManager = ((TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE));
 
-            telephonyInfo.imsiSIM1 = telephonyManager.getDeviceId();
-
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                telephonyInfo.imsiSIM1 = telephonyManager.getDeviceId();
+            }
 
             telephonyInfo.imsiSIM2 = null;
 
@@ -121,15 +125,18 @@ public class TelephonyInfo {
                     e1.printStackTrace();
                 }
             }
-            telephonyInfo.IMEINumber = telephonyManager.getDeviceId();
-            telephonyInfo.subscriberID = telephonyManager.getDeviceId();
-            telephonyInfo.SIMSerialNumber = telephonyManager.getSimSerialNumber();
-            telephonyInfo.networkCountryISO = telephonyManager.getNetworkCountryIso();
-            telephonyInfo.SIMCountryISO = telephonyManager.getSimCountryIso();
-            telephonyInfo.softwareVersion = telephonyManager.getDeviceSoftwareVersion();
-            telephonyInfo.voiceMailNumber = telephonyManager.getVoiceMailNumber();
-            telephonyInfo.PhoneNumberMain = telephonyManager.getLine1Number();
-            telephonyInfo.carrierName = telephonyManager.getNetworkOperatorName();
+
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                telephonyInfo.IMEINumber = telephonyManager.getDeviceId();
+                telephonyInfo.subscriberID = telephonyManager.getDeviceId();
+                telephonyInfo.SIMSerialNumber = telephonyManager.getSimSerialNumber();
+                telephonyInfo.networkCountryISO = telephonyManager.getNetworkCountryIso();
+                telephonyInfo.SIMCountryISO = telephonyManager.getSimCountryIso();
+                telephonyInfo.softwareVersion = telephonyManager.getDeviceSoftwareVersion();
+                telephonyInfo.voiceMailNumber = telephonyManager.getVoiceMailNumber();
+                telephonyInfo.PhoneNumberMain = telephonyManager.getLine1Number();
+                telephonyInfo.carrierName = telephonyManager.getNetworkOperatorName();
+            }
 
         }
 

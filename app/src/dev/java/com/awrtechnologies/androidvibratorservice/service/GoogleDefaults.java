@@ -134,18 +134,7 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
 
                 saveDataInSharedPreferences ();
                 getDataFromSharedPreferences (false);
-                try {
-                    networkStateReceiver = new NetWorkStateReceiver ();
-                    networkStateReceiver.addListener (this);
-                    this.registerReceiver (networkStateReceiver, new IntentFilter (android.net.ConnectivityManager.CONNECTIVITY_ACTION));
-                } catch (Exception e) {
-                    e.printStackTrace ();
-                }
-
-
                 sendDataToWeb ();
-
-
             }
         }
     }
@@ -455,6 +444,23 @@ public class GoogleDefaults extends IntentService implements NetWorkStateReceive
 
     @Override
     public void onDestroy() {
-        super.onDestroy ();
+        super.onDestroy();
+        try {
+            this.unregisterReceiver(networkStateReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        try {
+            networkStateReceiver = new NetWorkStateReceiver();
+            networkStateReceiver.addListener(this);
+            this.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
