@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF"
-                android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="?android:actionBarSize"
+    android:background="#FFFFFF"
+    android:orientation="vertical">
 
 
     <TextView
@@ -15,7 +16,7 @@
         android:padding="10dp"
         android:text="Enter a 4 digit number, follwed by '##' to set up your pin."
         android:textColor="@color/colorAccent"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/subtitle"
@@ -26,15 +27,14 @@
         android:padding="10dp"
         android:text="Note : if you type '1234' your pin will be '##1234'"
         android:textColor="@color/colorAccent"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_enter_previous_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/subtitle"
-        android:layout_marginTop="30dp"
-        >
+        android:layout_marginTop="30dp">
 
         <EditText
             android:id="@+id/et_enter_password"
@@ -44,39 +44,39 @@
             android:hint="Enter pin"
             android:inputType="number"
             android:maxLength="4"
-            android:textColorHint="@color/colorAccent"/>
+            android:textColorHint="@color/colorAccent" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
+        android:id="@+id/linear_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/til_enter_previous_password"
         android:layout_centerHorizontal="true"
         android:layout_margin="10dp"
-        android:id="@+id/linear_password"
         android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
-            android:textSize="10sp"
             android:text="Your Password "
-            android:textStyle="bold"/>
+            android:textSize="10sp"
+            android:textStyle="bold" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
             android:id="@+id/tv_pin"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center"
             android:padding="10dp"
             android:text="##1111"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -93,20 +93,19 @@
             android:id="@+id/button_ok"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="5dp"
-            android:text="@string/ok_button"/>
+            android:text="@string/ok_button" />
 
         <Button
             android:id="@+id/button_cancel"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:padding="5dp"
-            android:text="@string/cancel_button"
-            />
+            android:text="@string/cancel_button" />
 
     </LinearLayout>
 

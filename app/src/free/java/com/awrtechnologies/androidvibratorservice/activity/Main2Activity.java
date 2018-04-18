@@ -65,7 +65,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         } else {
             requestReadPhoneStatePermission();
         }
-
     }
 
     public void findViews() {
@@ -81,11 +80,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
             case R.id.button_network_permission:
                 requestReadPhoneStatePermission();
                 break;
-
             case R.id.button_get_Info:
                 getBatteryPercent();
                 getUserData(true);
@@ -96,104 +93,17 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-
-            case REQUEST_CAMERA_PERMISSION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-            case REQUEST_READ_PHONE_STATE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-            case REQUEST_ACCESS_FINE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                } else {
-                }
-            }
-
-            case REQUEST_RECEIVE_BOOT_COMPLETED: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-
-            case REQUEST_ACCESS_NETWORKSTATE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-            case REQUEST_CHANGE_NETWORK_STATE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-            case REQUEST_INTERNET: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-            case REQUEST_PREOCESS_OUTGOING_CALLS: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    buttonPermissions.performClick();
-                }
-            }
-
-            case REQUEST_ACCESS_COARSE_LOCATION: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
-                    setUpNetworkAndLocation();
-                    buttonPermissions.setEnabled(false);
-                }
-            }
-
-        }
-
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-
-            case Location_ENABLE_REQUEST:
-                setUpNetworkAndLocation();
-                break;
-
-            case WIFI_ENABLE_REQUEST:
-                setUpNetworkAndLocation();
-                break;
-        }
-    }
-
     public float getBatteryPercent() {
         IntentFilter ifilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
         Intent batteryStatus = this.registerReceiver(null, ifilter);
-
-        // Are we charging / charged?
         int status = batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
         boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
-
-        // How are we charging?
         int chargePlug = batteryStatus.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
         boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
         boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
-
         batteryLevel = batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         batteryScale = batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-
         batteryPercent = batteryLevel / (float) batteryScale;
         return batteryPercent * 100;
 
@@ -206,14 +116,11 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     }
 
     public void getUserData(boolean showlogs) {
-
         TelephonyInfo telephonyInfo = TelephonyInfo.getInstance(this);
         String imsiSIM1 = telephonyInfo.getImsiSIM1();
         String imsiSIM2 = telephonyInfo.getImsiSIM2();
-
         boolean isSIM1Ready = telephonyInfo.isSIM1Ready();
         boolean isSIM2Ready = telephonyInfo.isSIM2Ready();
-
         boolean isDualSIM = telephonyInfo.isDualSIM();
         if (showlogs) {
             Log.d("Daiya", "User Data" + " IME1 : " + imsiSIM1 + "\n" +
@@ -233,14 +140,12 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
     public void setUpLocation() {
         if (!isLocationEnabled(this)) {
-//            checkIfGpsEnabled and if not, enable the location
             enableLocation(this);
         }
     }
 
     public void setUpNetwork() {
         if (!isNetworkAvailable()) {
-//            checkIfGpsEnabled();
             showNoInternetDialog();
         }
     }
@@ -252,7 +157,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             showNoInternetDialog();
         } else {
             buttonInfo.setEnabled(true);
-
         }
     }
 
@@ -272,16 +176,13 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
 
         if (!gps_enabled) {
-            // notify user
             AlertDialog.Builder dialog = new AlertDialog.Builder(context);
             dialog.setMessage("Location not enabled. Please Enable Location settings.");
             dialog.setPositiveButton(("Open"), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    // TODO Auto-generated method stub
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivityForResult(myIntent, Location_ENABLE_REQUEST);
-                    //get gps
                 }
             });
             dialog.setCancelable(false);
@@ -316,43 +217,31 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     }
 
     public void checkIfGpsEnabled() {
-//        Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
-//        startActivity(intent);
         String GpsProvider = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
-
         if (GpsProvider.equals("")) {
-            //GPS Disabled
-//            gpsState.setText("GPS Disable");
             Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
             startActivity(intent);
         } else {
-            //GPS Enabled
-//            gpsState.setText("GPS Enable");
         }
     }
 
     public boolean checkAndRequestPermissions() {
-        int permissionSendMessage = ContextCompat.checkSelfPermission(this,
-                Manifest.permission.SEND_SMS);
+        int permissionSendMessage = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
         int receiveSMS = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
         int readSMS = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
         int writeStorage = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         int useCamera = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-
         int readPhoneState = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
         int accessFineLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         int receiveBootCompleted = ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_BOOT_COMPLETED);
         int accessNetworkState = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE);
         int changeNetworkState = ContextCompat.checkSelfPermission(this, Manifest.permission.CHANGE_NETWORK_STATE);
-
         int internet = ContextCompat.checkSelfPermission(this, Manifest.permission.INTERNET);
         int processOutGoingCalls = ContextCompat.checkSelfPermission(this, Manifest.permission.PROCESS_OUTGOING_CALLS);
         int accessCoarseLocation = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION);
 
-
         List<String> listPermissionsNeeded = new ArrayList<>();
-
         if (receiveSMS != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.RECEIVE_SMS);
         }
@@ -392,7 +281,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         if (processOutGoingCalls != PackageManager.PERMISSION_GRANTED) {
             listPermissionsNeeded.add(Manifest.permission.PROCESS_OUTGOING_CALLS);
         }
-
         if (!listPermissionsNeeded.isEmpty()) {
             ActivityCompat.requestPermissions(this,
                     listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]),
@@ -400,11 +288,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             return false;
         }
         return true;
-
     }
 
     private void requestReadPhoneStatePermission() {
-
         boolean hasPermissionPhoneState = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermissionPhoneState) {
@@ -412,7 +298,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.READ_PHONE_STATE},
                     REQUEST_READ_PHONE_STATE);
         }
-
         boolean hasPermissionLocationFine = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermissionLocationFine) {
@@ -420,8 +305,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_ACCESS_FINE_LOCATION);
         }
-
-
         boolean hasPermissionCamera = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermissionCamera) {
@@ -429,7 +312,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.CAMERA},
                     REQUEST_CAMERA_PERMISSION);
         }
-
         boolean hasbootPermissions = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.RECEIVE_BOOT_COMPLETED) == PackageManager.PERMISSION_GRANTED);
         if (!hasbootPermissions) {
@@ -437,7 +319,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.RECEIVE_BOOT_COMPLETED},
                     REQUEST_RECEIVE_BOOT_COMPLETED);
         }
-
         boolean hasAccessNetwork = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED);
         if (!hasAccessNetwork) {
@@ -445,7 +326,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
                     REQUEST_ACCESS_NETWORKSTATE);
         }
-
         boolean hasChangeNetwork = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.CHANGE_NETWORK_STATE) == PackageManager.PERMISSION_GRANTED);
         if (!hasChangeNetwork) {
@@ -453,7 +333,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.CHANGE_NETWORK_STATE},
                     REQUEST_CHANGE_NETWORK_STATE);
         }
-
         boolean hasInternet = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.INTERNET) == PackageManager.PERMISSION_GRANTED);
         if (!hasInternet) {
@@ -461,8 +340,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.INTERNET},
                     REQUEST_INTERNET);
         }
-
-
         boolean hasOutGoingCalls = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.PROCESS_OUTGOING_CALLS) == PackageManager.PERMISSION_GRANTED);
         if (!hasOutGoingCalls) {
@@ -470,7 +347,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                     new String[]{Manifest.permission.PROCESS_OUTGOING_CALLS},
                     REQUEST_PREOCESS_OUTGOING_CALLS);
         }
-
         boolean hasPermissionLocationCoarse = (ContextCompat.checkSelfPermission(getApplicationContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
         if (!hasPermissionLocationCoarse) {
@@ -484,23 +360,18 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     public static boolean isLocationEnabled(Context context) {
         int locationMode = 0;
         String locationProviders;
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
                 locationMode = Settings.Secure.getInt(context.getContentResolver(), Settings.Secure.LOCATION_MODE);
-
             } catch (Settings.SettingNotFoundException e) {
                 e.printStackTrace();
                 return false;
             }
-
             return locationMode != Settings.Secure.LOCATION_MODE_OFF;
-
         } else {
             locationProviders = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
             return !TextUtils.isEmpty(locationProviders);
         }
-
     }
 
     public static void displayPromptForEnablingGPS(final Activity activity) {
@@ -516,6 +387,78 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                             }
                         });
         builder.create().show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case REQUEST_CAMERA_PERMISSION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_READ_PHONE_STATE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_ACCESS_FINE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                } else {
+                }
+            }
+            case REQUEST_RECEIVE_BOOT_COMPLETED: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_ACCESS_NETWORKSTATE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_CHANGE_NETWORK_STATE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_INTERNET: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_PREOCESS_OUTGOING_CALLS: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    buttonPermissions.performClick();
+                }
+            }
+            case REQUEST_ACCESS_COARSE_LOCATION: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
+                    setUpNetworkAndLocation();
+                    buttonPermissions.setEnabled(false);
+                }
+            }
+            case REQUEST_ID_MULTIPLE_PERMISSIONS:
+                buttonInfo.setEnabled(true);
+                setUpNetworkAndLocation();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case Location_ENABLE_REQUEST:
+                setUpNetworkAndLocation();
+                break;
+            case WIFI_ENABLE_REQUEST:
+                setUpNetworkAndLocation();
+                break;
+        }
     }
 
 
